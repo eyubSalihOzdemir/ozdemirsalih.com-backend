@@ -10,11 +10,13 @@ class ArticlesFilter extends ApiFilter {
   protected $safeParms = [
     'title' => ['eq'],
     'body' => ['eq'],
+    'categoryId' => ['eq'],
     'createdAt' => ['eq', 'gt', 'lt'],
     'updatedAt' => ['eq', 'gt', 'lt'],
   ];
 
   protected $columnMap = [
+    'categoryId' => 'category_id',
     'createdAt' => 'created_at',
     'updatedAt' => 'updated_at'
   ];
