@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Models\User;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Filters\V1\ArticlesFilter;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreArticleRequest;
 use App\Http\Resources\V1\ArticleResource;
-use App\Http\Requests\UpdateArticleRequest;
 use App\Http\Resources\V1\ArticleCollection;
+use App\Http\Requests\V1\StoreArticleRequest;
+use App\Http\Requests\V1\UpdateArticleRequest;
 
 class ArticleController extends Controller
 {
@@ -20,13 +21,15 @@ class ArticleController extends Controller
     {
         // filtering example:
         // http://localhost:8000/api/v1/articles?title[eq]=Et%20quaerat%20doloremque%20qui%20totam.
-
+        
         $filter = new ArticlesFilter();
         $filterItems = $filter->transform($request); //[['column', 'operator', 'value']]
+        
+        $query = Article::query()->where($filterItems);
+        $query->select('id', 'title', 'category_id', 'description', 'thumbnail', 'created_at', 'updated_at');
 
-        $articles = Article::where($filterItems);
-
-        return new ArticleCollection($articles->paginate()->appends($request->query()));
+        return new ArticleCollection($query->paginate()->appends($request->query()));
+        
         // if (count($filterItems) == 0) {
         //     // return Article::all();
         //     return new ArticleCollection(Article::paginate());
@@ -50,7 +53,7 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
-        //
+        return new ArticleResource(Article::create($request->all()));
     }
 
     /**
@@ -75,7 +78,7 @@ class ArticleController extends Controller
      */
     public function update(UpdateArticleRequest $request, Article $article)
     {
-        //
+        $article->update($request->all());
     }
 
     /**
@@ -85,4 +88,18 @@ class ArticleController extends Controller
     {
         //
     }
+
+    // public function assignApiTokenManually($userId)
+    // {
+    //     $user = User::find($userId);
+
+    //     if ($user) {
+    //         $apiToken = $user->createToken('admin-token')->plainTextToken;
+    //         //$user->api_token = $apiToken;
+    //         $user->save();
+    //         return response()->json(['api_token' => $apiToken], 200);
+    //     } else {
+    //         return response()->json(['error' => 'User not found'], 404);
+    //     }
+    // }
 }

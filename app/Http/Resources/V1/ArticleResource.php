@@ -16,10 +16,15 @@ class ArticleResource extends JsonResource
     {   
         // change what's and how's the data that you return.
         // you can return only specific data and you can change the names to comply with JSON conventions.
+
         return [
             'id' => $this->id,
             'title' => $this->title,
+            // 'body' => $request->routeIs('articles.show') ? $this->body : null,
             'body' => $this->body,
+            'categoryId' => $this->category_id,
+            'description' => $this->description,
+            'thumbnail' => $this->thumbnail,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

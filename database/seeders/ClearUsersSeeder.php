@@ -2,19 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Article;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class ArticleSeeder extends Seeder
+class ClearUsersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Article::factory()
-            ->count(50)
-            ->create();
+        // Delete all existing users.
+        User::truncate();
     }
 }

@@ -16,9 +16,15 @@ class ArticleFactory extends Factory
      */
     public function definition(): array
     {
+        // $categoryID = $this->faker->boolean() ? null : $this->faker->randomElement(['1', '2', '3', '4', '5', null]);
+        $categoryID = $this->faker->randomElement(['1', '2', '3', '4', '5', null]);
+
         return [
             'title' => $this->faker->sentence(),
-            'body' => $this->faker->paragraph()
+            'body' => $this->faker->paragraphs(50, true),
+            'category_id' => $categoryID,
+            'description' => $this->faker->sentence(20),
+            'thumbnail' => $this->faker->imageUrl(600, 400, true)
         ];
     }
 }
