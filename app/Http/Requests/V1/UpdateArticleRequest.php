@@ -27,7 +27,7 @@ class UpdateArticleRequest extends FormRequest
         if($method == "PUT") {
             return [
                 'title' => ['required','string','max:55'],
-                'body' => ['required','string'],
+                'body_md_filepath' => ['required','string'],
                 'description' => ['required', 'string'],
                 'thumbnail' => ['required', 'string'],
                 'category_id' => ['string'], 
@@ -35,7 +35,7 @@ class UpdateArticleRequest extends FormRequest
         } else {
             return [
                 'title' => ['sometimes', 'required','string','max:55'],
-                'body' => ['sometimes', 'required','string'],
+                'body_md_filepath' => ['sometimes', 'required','string'],
                 'description' => ['sometimes', 'string'],
                 'thumbnail' => ['sometimes', 'string'],
                 'category_id' => ['sometimes', 'string']
@@ -47,7 +47,8 @@ class UpdateArticleRequest extends FormRequest
     protected function prepareForValidation() {
             if($this->categoryId) {
                 $this->merge([
-                'category_id' => $this->categoryId
+                'category_id' => $this->categoryId,
+                'body_md_filepath' => $this->bodyMdFilePath
                 // 'categoryId' => 'category_id'
             ]);
         }

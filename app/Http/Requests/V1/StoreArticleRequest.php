@@ -26,7 +26,7 @@ class StoreArticleRequest extends FormRequest
     {
         return [
             'title' => ['required','string','max:55'],
-            'body' => ['required','string'],
+            'body_md_filepath' => ['required','string'],
             'description' => ['required', 'string'],
             'thumbnail' => ['required', 'string'],
             'category_id' => ['string']
@@ -37,7 +37,8 @@ class StoreArticleRequest extends FormRequest
         // only cast it if there is a categoryId field provided in the payload
         if ($this->categoryId) {
             $this->merge([
-                'category_id' => $this->categoryId
+                'category_id' => $this->categoryId,
+                'body_md_filepath' => $this->bodyMdFilepath
                 // 'categoryId' => 'category_id'
             ]);
         }

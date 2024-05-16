@@ -11,7 +11,7 @@ class Article extends Model
 
     protected $fillable = [
         'title',
-        'body',
+        'body_md_filepath',
         'category_id',
         'description',
         'thumbnail'

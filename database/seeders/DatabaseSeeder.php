@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
 
         // Call other seeders
         // Article::truncate();
-        $this->call(ArticleSeeder::class);
+        // $this->call(ArticleSeeder::class);
         $this->call(AdminUserSeeder::class);
     }
 }

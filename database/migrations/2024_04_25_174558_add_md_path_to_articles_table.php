@@ -11,7 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('articles', function (Blueprint $table) {
+        Schema::dropIfExists('articles'); // Delete the existing table
+        
+
+        Schema::table('articles', function (Blueprint $table) {
+            Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->text('body_md_filepath');
@@ -20,6 +24,7 @@ return new class extends Migration
             $table->text('thumbnail');
             $table->timestamps();
         });
+        });
     }
 
     /**
@@ -27,6 +32,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('articles');
+        Schema::table('articles', function (Blueprint $table) {
+            //
+        });
     }
 };

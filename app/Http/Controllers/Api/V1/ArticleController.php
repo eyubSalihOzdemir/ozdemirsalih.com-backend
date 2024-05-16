@@ -29,23 +29,6 @@ class ArticleController extends Controller
         // $query->select('id', 'title', 'category_id', 'description', 'thumbnail', 'created_at', 'updated_at');
 
         return new ArticleCollection($query->paginate()->appends($request->query()));
-        
-        // if (count($filterItems) == 0) {
-        //     // return Article::all();
-        //     return new ArticleCollection(Article::paginate());
-        // } else {
-        //     $articles = Article::where($filterItems)->paginate();
-
-        //     return new ArticleCollection($articles->appends($request->query()));
-        // }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -53,7 +36,18 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
-        return new ArticleResource(Article::create($request->all()));
+        // Laravel automatically handles the validation because of the mentioned StoreArticleRequest class.
+        $validatedArticle = Article::create($request->all());
+
+        return new ArticleResource($validatedArticle);
+
+        // try {
+        //     $article = Article::create($request->validated()); // Create article using validated data
+
+        //     return response()->json(['message' => 'Article created successfully', 'article' => $article], 201); 
+        // } catch($e) {
+        //     return response()->json(['errors' => $e->validator->getMessageBag()], 422);
+        // }
     }
 
     /**
@@ -61,16 +55,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        // return $article;
         return new ArticleResource($article);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Article $article)
-    {
-        //
     }
 
     /**
@@ -84,22 +69,29 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Article $article)
+    public function destroy($id)
     {
-        //
+        $article = Article::findOrFail($id);
+        $article->delete();
+
+        return response()->json([
+            'message' => 'Article deleted successfully!' 
+        ]);
     }
 
-    // public function assignApiTokenManually($userId)
-    // {
-    //     $user = User::find($userId);
+    public function assignApiTokenManually($userId)
+    {
+        $user = User::find($userId);
 
-    //     if ($user) {
-    //         $apiToken = $user->createToken('admin-token')->plainTextToken;
-    //         //$user->api_token = $apiToken;
-    //         $user->save();
-    //         return response()->json(['api_token' => $apiToken], 200);
-    //     } else {
-    //         return response()->json(['error' => 'User not found'], 404);
-    //     }
-    // }
+        if ($user) {
+            $apiToken = $user->createToken('admin-token')->plainTextToken;
+            //$user->api_token = $apiToken;
+            $user->save();
+            return response()->json(['api_token' => $apiToken], 200);
+        } else {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+    }
 }
+
+
