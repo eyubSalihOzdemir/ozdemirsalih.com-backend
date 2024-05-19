@@ -84,9 +84,16 @@ class ArticleController extends Controller
         $user = User::find($userId);
 
         if ($user) {
-            $apiToken = $user->createToken('admin-token')->plainTextToken;
-            //$user->api_token = $apiToken;
-            $user->save();
+            // $apiToken = $user->createToken('admin-token')->plainTextToken;
+            // //$user->api_token = $apiToken;
+            // $user->save();
+            if (!$user->api_token) {
+                $apiToken = $user->createToken('admin-token')->plainTextToken;
+                $user->api_token = $apiToken;
+                $user->save();
+            } else {
+                $apiToken = $user->api_token;
+            }
             return response()->json(['api_token' => $apiToken], 200);
         } else {
             return response()->json(['error' => 'User not found'], 404);

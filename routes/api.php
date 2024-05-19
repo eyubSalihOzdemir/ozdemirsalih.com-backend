@@ -29,7 +29,7 @@ Route::prefix('v1')->namespace('App\Http\Controllers\Api\V1')->group(function ()
 
     Route::get('categories', [CategoryController::class, 'index']); // List categories (public)
 
-    // Route::get('/assign-token/{userId}', [ArticleController::class, 'assignApiTokenManually']);
+    Route::get('/assign-token/{userId}', [ArticleController::class, 'assignApiTokenManually']);
 });
 
 // Protected Routes (requires authentication for POST, PUT, DELETE)
