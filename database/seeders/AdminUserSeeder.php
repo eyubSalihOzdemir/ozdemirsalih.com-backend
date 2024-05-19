@@ -28,7 +28,7 @@ class AdminUserSeeder extends Seeder
 
             // Generate and assign API token using Sanctum
             $token = $adminUser->createToken('admin-token')->plainTextToken;
-            $adminUser->api_token = $token;
+            // $adminUser->api_token = $token;
             $adminUser->save();
 
             $this->command->info("API token for admin user: $token");
