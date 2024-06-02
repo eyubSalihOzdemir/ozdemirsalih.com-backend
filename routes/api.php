@@ -26,6 +26,7 @@ Route::prefix('v1')->namespace('App\Http\Controllers\Api\V1')->group(function ()
 
     Route::get('shorts', [ShortController::class, 'index']); // List shorts (public)
     Route::get('shorts/{short}', [ShortController::class, 'show']); // List shorts (public)
+    
 
     Route::get('categories', [CategoryController::class, 'index']); // List categories (public)
 
@@ -37,6 +38,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1', 'm
     Route::apiResource('articles', ArticleController::class)->only(['store', 'destroy']); // Exclude index and show actions from public access
 
     Route::apiResource('shorts', ShortController::class)->only(['store', 'destroy']);
+    Route::put('shorts/{short}', [ShortController::class, 'update']);
 
     Route::apiResource('categories', CategoryController::class); // CRUD operations on categories (protected)
     
