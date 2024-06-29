@@ -23,7 +23,7 @@ class ShortController extends Controller
         $filter = new ShortsFilter();
         $filterItems = $filter->transform($request); //[['column', 'operator', 'value']]
         
-        $query = Short::query()->where($filterItems);
+        $query = Short::query()->where($filterItems)->orderBy('created_at', 'desc');
         // $query->select('id', 'title', 'category_id', 'description', 'thumbnail', 'created_at', 'updated_at');
 
         return new ShortCollection($query->paginate()->appends($request->query()));
