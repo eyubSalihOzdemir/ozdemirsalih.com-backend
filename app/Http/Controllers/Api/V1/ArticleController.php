@@ -25,7 +25,7 @@ class ArticleController extends Controller
         $filter = new ArticlesFilter();
         $filterItems = $filter->transform($request); //[['column', 'operator', 'value']]
         
-        $query = Article::query()->where($filterItems);
+        $query = Article::query()->where($filterItems)->orderBy('created_at', 'desc');
         // $query->select('id', 'title', 'category_id', 'description', 'thumbnail', 'created_at', 'updated_at');
 
         return new ArticleCollection($query->paginate()->appends($request->query()));
